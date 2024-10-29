@@ -7,11 +7,22 @@ const app = express();
 app.use(bodyParser.json());
 //app.use(cors());
 
+const sendEvent = (url, event) => {
+    console.log("Sending", event);
+    axios.post(url, event).catch((err) => {
+        console.log(err.message);
+    });
+}
+
 const sendEvents = (payload) => {
-    console.log("Sending", payload);
-    axios.post('http://localhost:4000/events', payload);
-    axios.post('http://localhost:4001/events', payload);
-    axios.post('http://localhost:4002/events', payload);
+    //post
+    sendEvent('http://localhost:4000/events', payload);
+    //comment
+    sendEvent('http://localhost:4001/events', payload);
+    //query
+    sendEvent('http://localhost:4002/events', payload);
+    //moderation
+    sendEvent('http://localhost:4003/events', payload);
 };
 
 app.post('/events', (req, res) => {
