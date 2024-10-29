@@ -21,7 +21,7 @@ const CommentCreate = ({ postId }) => {
                     <input
                         value={comment}
                         placeholder="comment ..."
-                        required minlength="1"
+                        required minLength="1"
                         onChange={e => {setComment(e.target.value)}}
                         className="form-control my-2" 
                     >
