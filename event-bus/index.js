@@ -7,6 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 //app.use(cors());
 
+const events = []
+
 const sendEvent = (url, event) => {
     console.log("Sending", event);
     axios.post(url, event).catch((err) => {
@@ -26,10 +28,14 @@ const sendEvents = (payload) => {
 };
 
 app.post('/events', (req, res) => {
-
     const event = req.body
     sendEvents(event);
+    events.push(event);
     res.send({status: "OK"});
+});
+
+app.get('/events', (req, res) => {
+    res.send(events);
 });
 
 app.listen(4005, () => {
