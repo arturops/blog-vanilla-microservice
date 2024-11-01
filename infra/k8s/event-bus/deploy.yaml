@@ -18,6 +18,15 @@ spec:
       containers:
       - image: arturops/vanilla-event-bus
         name: vanilla-event-bus
+        env:
+        - name: POSTS_DOMAIN
+          value: "http://posts-svc"
+        - name: COMMENTS_DOMAIN
+          value: "http://comments-svc"
+        - name: QUERY_DOMAIN
+          value: "http://query-svc"
+        - name: MODERATION_DOMAIN
+          value: "http://moderation-svc"
         ports:
         - containerPort: 4005
         resources:
