@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const config = require('./config');
 //const cors = require('cors');
 
 const app = express();
@@ -18,13 +19,13 @@ const sendEvent = (url, event) => {
 
 const sendEvents = (payload) => {
     //post
-    sendEvent('http://localhost:4000/events', payload);
+    sendEvent(`${config.posts_domain}:4000/events`, payload);
     //comment
-    sendEvent('http://localhost:4001/events', payload);
+    sendEvent(`${config.comments_domain}:4001/events`, payload);
     //query
-    sendEvent('http://localhost:4002/events', payload);
+    sendEvent(`${config.query_domain}:4002/events`, payload);
     //moderation
-    sendEvent('http://localhost:4003/events', payload);
+    sendEvent(`${config.moderation_domain}:4003/events`, payload);
 };
 
 app.post('/events', (req, res) => {
@@ -39,5 +40,9 @@ app.get('/events', (req, res) => {
 });
 
 app.listen(4005, () => {
-    console.log("Listening in 4005");
+    console.log("=> Event bus - Listening in 4005");
+    console.log(`=> Posts domain ${config.posts_domain}`);
+    console.log(`=> Comments domain ${config.comments_domain}`);
+    console.log(`=> Query domain ${config.query_domain}`);
+    console.log(`=> Moderation domain ${config.moderation_domain}`);
 });
