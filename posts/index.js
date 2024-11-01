@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
 const cors = require('cors');
 const axios = require('axios');
+const config = require('./config');
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,7 +26,7 @@ app.post('/posts', async (req, res)=>{
     };
 
     //propgate an event
-    await axios.post('http://localhost:4005/events', {
+    await axios.post(`${config.event_bus_domain}:4005/events`, {
         type: "PostCreated",
         data: posts[id],
     });
@@ -40,5 +41,6 @@ app.post('/events', (req, res) => {
 });
 
 app.listen(4000, ()=>{
-    console.log('Posts - Listening on 4000');
+    console.log('=> Posts - Listening on 4000');
+    console.log(`=> Events posting to ${config.event_bus_domain}`);
 });

@@ -18,6 +18,9 @@ spec:
       containers:
       - image: arturops/vanilla-posts
         name: vanilla-posts
+        env:
+          - name: EVENT_BUS_DOMAIN
+            value: "http://event-bus-svc"
         resources:
           limits:
             memory: "128Mi"
