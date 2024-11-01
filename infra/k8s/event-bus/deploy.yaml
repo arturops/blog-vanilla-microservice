@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: event-bus
+  name: event-bus-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-bus
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: event-bus
+    spec:
+      containers:
+      - image: arturops/vanilla-event-bus
+        name: vanilla-event-bus
+        ports:
+        - containerPort: 4005
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+status: {}

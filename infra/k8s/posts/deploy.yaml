@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: posts
+  name: posts-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+      - image: arturops/vanilla-posts
+        name: vanilla-posts
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 4000
+status: {}
