@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: moderation
+  name: moderation-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moderation
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: moderation
+    spec:
+      containers:
+      - image: arturops/vanilla-moderation
+        name: vanilla-moderation
+        ports:
+        - containerPort: 4003
+        env:
+        - name: EVENT_BUS_DOMAIN
+          value: "http://event-bus-svc"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+status: {}

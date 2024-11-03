@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
 const cors = require('cors');
 const axios = require('axios');
+const config = require('./config');
 
 const app = express();
 app.use(bodyParser.json());
@@ -23,7 +24,7 @@ app.post('/posts/:id/comments', async (req, res) => {
     commentsByPostId[req.params.id] = comments;
 
     //propgate an event
-    await axios.post('http://localhost:4005/events', {
+    await axios.post(`${config.event_bus_domain}:4005/events`, {
         type: "CommentCreated",
         data: {
             id: commentId,
@@ -49,7 +50,7 @@ app.post('/events', async (req, res) => {
         });
         comment.status = status;
 
-        await axios.post('http://localhost:4005/events', {
+        await axios.post(`${config.event_bus_domain}:4005/events`, {
             type: 'CommentUpdated',
             data: {
                 id,
@@ -64,5 +65,6 @@ app.post('/events', async (req, res) => {
 });
 
 app.listen(4001, () => {
-    console.log('Listening on 4001');
+    console.log('=> Comments - Listening on 4001');
+    console.log(`=> Events bus domain ${config.event_bus_domain}`);
 });

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: comments
+  name: comments-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comments
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: comments
+    spec:
+      containers:
+      - image: arturops/vanilla-comments
+        name: vanilla-comments
+        env:
+        - name: EVENT_BUS_DOMAIN
+          value: "http://event-bus-svc"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4001
+status: {}
