@@ -29,6 +29,7 @@ spec:
           value: "http://vanilla-blog.com"
         resources:
           limits:
-            memory: "128Mi"
+            # image alone is 754 megabytes
+            memory: "1000M"
             cpu: "500m"
 status: {}
