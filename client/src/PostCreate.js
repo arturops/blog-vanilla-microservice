@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import config from './config';
 
 const PostCreate = () => {
     const [title, setTitle] = useState('');
 
     const onSubmit = async (event) => {
         event.preventDefault();
-        await axios.post('http://localhost:4000/posts', {title});
+        await axios.post(`${config.posts_domain}/posts/create`, {title});
 
         // after  creatign the title post, reset title
         setTitle('');

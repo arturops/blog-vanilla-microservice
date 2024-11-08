@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import CommentCreate from "./CommentCreate";
 import CommentList from "./CommentList";
+import config from "./config";
 
 const PostList = () => {
     // return an object {} because thats why the posts list returns
@@ -9,7 +10,7 @@ const PostList = () => {
 
     const fetchPosts = async () => {
         try{
-            const res = await axios.get('http://localhost:4002/posts');
+            const res = await axios.get(`${config.query_domain}/posts`);
             setPosts(res.data);
         } catch (error) {
             console.log(error.message);
