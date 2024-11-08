@@ -1,10 +1,14 @@
+#  How to expose ingress via curl or on the browser?
+#  Useful resource linux/mac: https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+#
 # a) To expose the ingress from minikube on mac use command $minikube tunnel
 # b) After exposing ingress or having it up and configured, users can use
 #    $ curl --resolve "<YOUR-APP-URL>:80:127.0.0.1" -i <YOUR-APP-URL>/<YOUR-SERVICE-ROUTE> 
 # c) If a user wasnt so use the browser instead of "curl", Linux/mac users 
 #    must set the hostnames of their APP(s) in /etc/hosts
-#    to 127.0.0.1 or if using minikube to the minikube ip
-#    EXample to map minikube ip to vanilla-blog.com: <minikube ip> vanilla-blog.com 
+#    to 127.0.0.1 (for mac users always) or if using minikube in linux, get the ip with $minikube ip
+#
+# EXAMPLE mapping for vanilla-blog.com in hosts file: <minikube ip OR 127.0.0.1> vanilla-blog.com
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -19,6 +23,10 @@ spec:
   - host: vanilla-blog.com
     http:
       paths:
+      # NOTE: order matters for backend listing.
+      # Ingress attempts to match the requests to paths on
+      # top of this list, and if not found goes down the list
+      #
       # posts
       - backend:
           service:
@@ -43,5 +51,13 @@ spec:
               number: 4002
         path: /posts
         pathType: Prefix
+      # client (last one so we match it all)
+      - backend:
+          service:
+            name: client-svc
+            port:
+              number: 3000
+        path: /?(.*)
+        pathType: ImplementationSpecific
 status:
   loadBalancer: {}
