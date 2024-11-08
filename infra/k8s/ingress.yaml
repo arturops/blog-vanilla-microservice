@@ -1,0 +1,47 @@
+# a) To expose the ingress from minikube on mac use command $minikube tunnel
+# b) After exposing ingress or having it up and configured, users can use
+#    $ curl --resolve "<YOUR-APP-URL>:80:127.0.0.1" -i <YOUR-APP-URL>/<YOUR-SERVICE-ROUTE> 
+# c) If a user wasnt so use the browser instead of "curl", Linux/mac users 
+#    must set the hostnames of their APP(s) in /etc/hosts
+#    to 127.0.0.1 or if using minikube to the minikube ip
+#    EXample to map minikube ip to vanilla-blog.com: <minikube ip> vanilla-blog.com 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  name: ingress-svc
+  annotations:
+    # to be able to use pathType ImplementationSpecific
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: vanilla-blog.com
+    http:
+      paths:
+      # posts
+      - backend:
+          service:
+            name: posts-svc
+            port:
+              number: 4000
+        path: /posts/create
+        pathType: Prefix
+      # comments
+      - backend:
+          service:
+            name: comments-svc
+            port:
+              number: 4001
+        path: /posts/?(.*)/comments
+        pathType: ImplementationSpecific
+      # query
+      - backend:
+          service:
+            name: query-svc
+            port:
+              number: 4002
+        path: /posts
+        pathType: Prefix
+status:
+  loadBalancer: {}
