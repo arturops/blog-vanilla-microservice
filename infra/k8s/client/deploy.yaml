@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: client
+  name: client-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - image: arturops/vanilla-blog-client
+        name: vanilla-blog-client
+        ports:
+        - containerPort: 3000
+        env:
+        - name: POSTS_DOMAIN
+          value: "http://vanilla-blog.com"
+        - name: COMMENTS_DOMAIN
+          value: "http://vanilla-blog.com"
+        - name: QUERY_DOMAIN
+          value: "http://vanilla-blog.com"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+status: {}
