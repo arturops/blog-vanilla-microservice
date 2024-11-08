@@ -48,7 +48,7 @@ app.post("/events", (req, res) => {
     res.send({});
 });
 
-app.get("/:id/post", (req, res) => {
+app.get("/posts/:id", (req, res) => {
     const postId = req.params.id;
     const renderPosts = { ... posts[postId], comments: comments[postId]}
     res.send(renderPosts);

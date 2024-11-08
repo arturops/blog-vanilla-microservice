@@ -15,9 +15,11 @@ const posts = {};
 
 // routes
 app.get('/posts', (req, res)=>{
+    // this route is for internal debugging use only
     res.send(posts);
 });
-app.post('/posts', async (req, res)=>{
+
+app.post('/posts/create', async (req, res)=>{
     const id = randomBytes(4).toString('hex');
     const { title } = req.body;
 
