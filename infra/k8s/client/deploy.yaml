@@ -21,11 +21,12 @@ spec:
         ports:
         - containerPort: 3000
         env:
-        - name: POSTS_DOMAIN
+        # react app en vars need to be prefixed by REACT_APP_
+        - name: REACT_APP_POSTS_DOMAIN
           value: "http://vanilla-blog.com"
-        - name: COMMENTS_DOMAIN
+        - name: REACT_APP_COMMENTS_DOMAIN
           value: "http://vanilla-blog.com"
-        - name: QUERY_DOMAIN
+        - name: REACT_APP_QUERY_DOMAIN
           value: "http://vanilla-blog.com"
         resources:
           limits:
