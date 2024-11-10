@@ -1,0 +1,71 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: blog-microserv
+build:
+  local:
+    push: false
+  artifacts:
+    - image: arturops/vanilla-blog-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: arturops/vanilla-comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: arturops/vanilla-event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: arturops/vanilla-moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: arturops/vanilla-posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: arturops/vanilla-query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+manifests:
+  rawYaml:
+    - infra/k8s/ingress.yaml
+    - infra/k8s/client/deploy.yaml
+    - infra/k8s/client/svc.yaml
+    - infra/k8s/comments/deploy.yaml
+    - infra/k8s/comments/svc.yaml
+    - infra/k8s/event-bus/deploy.yaml
+    - infra/k8s/event-bus/svc.yaml
+    - infra/k8s/moderation/deploy.yaml
+    - infra/k8s/moderation/svc.yaml
+    - infra/k8s/posts/deploy.yaml
+    - infra/k8s/posts/svc.yaml
+    - infra/k8s/query/deploy.yaml
+    - infra/k8s/query/svc.yaml
